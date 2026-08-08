@@ -11,7 +11,6 @@ import {
   Activity,
   Layers,
   ArrowRight,
-  Sparkles,
   Lock,
   Radio
 } from 'lucide-react';
