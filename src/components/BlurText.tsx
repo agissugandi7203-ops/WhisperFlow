@@ -52,20 +52,23 @@ export const BlurText: React.FC<BlurTextProps> = ({
     return () => observer.disconnect();
   }, [threshold, rootMargin]);
 
-  // Initial hidden state (left-to-right uses negative X offset)
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
+  // Initial hidden state with smooth blur for desktop
   const defaultFrom: TargetAndTransition =
     direction === 'left'
-      ? { opacity: 0, x: -30, y: 0 }
+      ? { opacity: 0, x: -30, y: 0, filter: isMobile ? 'none' : 'blur(10px)' }
       : direction === 'right'
-      ? { opacity: 0, x: 30, y: 0 }
+      ? { opacity: 0, x: 30, y: 0, filter: isMobile ? 'none' : 'blur(10px)' }
       : direction === 'bottom'
-      ? { opacity: 0, x: 0, y: 25 }
-      : { opacity: 0, x: 0, y: -25 };
+      ? { opacity: 0, x: 0, y: 25, filter: isMobile ? 'none' : 'blur(10px)' }
+      : { opacity: 0, x: 0, y: -25, filter: isMobile ? 'none' : 'blur(10px)' };
 
   const defaultTo: TargetAndTransition = {
     opacity: 1,
     x: 0,
     y: 0,
+    filter: 'none',
   };
 
   return (

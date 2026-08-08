@@ -49,23 +49,19 @@ export const AgentSection: React.FC = () => {
       if (!sectionRef.current) return;
       const rect = sectionRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
-      const totalScrollable = rect.height - windowHeight;
 
-      if (totalScrollable <= 0) return;
+      // Start animating as section enters viewport (rect.top <= windowHeight)
+      const currentScroll = windowHeight - rect.top;
+      const totalDistance = rect.height;
 
-      // Calculate progress from 0 (when section hits top) to 1 (when pinned section finishes)
-      const scrolledPast = -rect.top;
-      const rawProgress = clamp(0, 1, scrolledPast / totalScrollable);
+      if (totalDistance <= 0) return;
 
-      // Scrubber curve: holds user and expands video from 0.0 to 0.75, stays full until 1.0
-      const expandProgress = clamp(0, 1, rawProgress / 0.75);
+      const rawProgress = clamp(0, 1, currentScroll / (totalDistance * 0.75));
 
-      // Scale from 0.86 to 1.04 (holds user in place while video grows larger)
-      animState.current.targetScale = 0.86 + (1.04 - 0.86) * expandProgress;
-      // Width from 82% to 100%
-      animState.current.targetWidth = 82 + (100 - 82) * expandProgress;
-      // Radius from 28px to 16px
-      animState.current.targetRadius = 28 + (16 - 28) * expandProgress;
+      // Smooth expansion from entry through pin
+      animState.current.targetScale = 0.82 + (1.04 - 0.82) * rawProgress;
+      animState.current.targetWidth = 78 + (100 - 78) * rawProgress;
+      animState.current.targetRadius = 32 + (16 - 32) * rawProgress;
     };
 
     const render = () => {
@@ -99,15 +95,23 @@ export const AgentSection: React.FC = () => {
     window.addEventListener('scroll', handleScroll, { passive: true });
     window.addEventListener('resize', handleScroll, { passive: true });
 
-    const lenis = (window as any).__lenis;
-    if (lenis) {
-      lenis.on('scroll', handleScroll);
-    }
+    // Continuously check & attach Lenis if created asynchronously
+    let lenisAttached = false;
+    const lenisCheckInterval = setInterval(() => {
+      const lenis = (window as any).__lenis;
+      if (lenis && !lenisAttached) {
+        lenis.on('scroll', handleScroll);
+        lenisAttached = true;
+        clearInterval(lenisCheckInterval);
+      }
+    }, 100);
 
     return () => {
       cancelAnimationFrame(animationFrameId);
+      clearInterval(lenisCheckInterval);
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleScroll);
+      const lenis = (window as any).__lenis;
       if (lenis) {
         lenis.off('scroll', handleScroll);
       }

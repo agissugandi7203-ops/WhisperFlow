@@ -54,14 +54,18 @@ export const SplitText: React.FC<SplitTextProps> = ({
     return () => observer.disconnect();
   }, [threshold, rootMargin]);
 
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
   const defaultFrom: TargetAndTransition = {
     opacity: 0,
-    transform: 'translate3d(0, 16px, 0)',
+    transform: 'translate3d(0, 20px, 0)',
+    filter: isMobile ? 'none' : 'blur(8px)',
   };
 
   const defaultTo: TargetAndTransition = {
     opacity: 1,
     transform: 'translate3d(0, 0, 0)',
+    filter: 'none',
   };
 
   return (
