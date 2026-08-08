@@ -57,8 +57,10 @@ export const Navbar: React.FC = () => {
     navigate('/');
   };
 
-  // Helper to check if link is currently active
   const isLinkActive = (href: string) => {
+    if (href === '/product') {
+      return currentPath === '/product' || currentPath === '/' || currentPath === '' || currentPath === '/index.html';
+    }
     return currentPath === href;
   };
 

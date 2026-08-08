@@ -8,14 +8,13 @@ import { QuoteSection } from './components/QuoteSection';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
 import { NotFound } from './pages/NotFound';
-import { ProductPage } from './pages/ProductPage';
 import { SolutionsPage } from './pages/SolutionsPage';
 import { ModelsPage } from './pages/ModelsPage';
 import { PricingPage } from './pages/PricingPage';
 import { ContactPage } from './pages/ContactPage';
 import { PartnerLogos } from './components/PartnerLogos';
 
-const MainLandingPage: React.FC = () => {
+export const MainLandingPage: React.FC = () => {
   return (
     <div className="bg-[#0a0608] min-h-screen text-white font-inter selection:bg-white/20 selection:text-white transition-colors duration-500 w-full max-w-full overflow-x-hidden relative">
       {/* Fixed Navigation Bar */}
@@ -23,7 +22,7 @@ const MainLandingPage: React.FC = () => {
 
       {/* Main Content Sections with Generous Breathing Room */}
       <main className="flex flex-col w-full max-w-full overflow-x-hidden">
-        {/* Section 1: Fullscreen Hero */}
+        {/* Section 1: Fullscreen Hero ("Every Conversation. Every Insight.") */}
         <Hero />
 
         {/* Logo Marquee Loop */}
@@ -48,15 +47,14 @@ const MainLandingPage: React.FC = () => {
   );
 };
 
-type Route = 'home' | 'product' | 'solutions' | 'models' | 'pricing' | 'contact' | 'notfound';
+type Route = 'home' | 'solutions' | 'models' | 'pricing' | 'contact' | 'notfound';
 
 const getRoute = (): Route => {
   if (typeof window === 'undefined') return 'home';
 
   const path = window.location.pathname;
 
-  if (path === '/' || path === '' || path === '/index.html') return 'home';
-  if (path === '/product') return 'product';
+  if (path === '/' || path === '' || path === '/index.html' || path === '/product') return 'home';
   if (path === '/solutions') return 'solutions';
   if (path === '/models') return 'models';
   if (path === '/pricing') return 'pricing';
@@ -95,7 +93,6 @@ export const App: React.FC = () => {
   return (
     <ThemeProvider>
       {route === 'home'      && <MainLandingPage />}
-      {route === 'product'   && <ProductPage />}
       {route === 'solutions' && <SolutionsPage />}
       {route === 'models'    && <ModelsPage />}
       {route === 'pricing'   && <PricingPage />}
