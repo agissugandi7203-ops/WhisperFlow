@@ -16,12 +16,12 @@ import { PartnerLogos } from './components/PartnerLogos';
 
 export const MainLandingPage: React.FC = () => {
   return (
-    <div className="bg-[#0a0608] min-h-screen text-white font-inter selection:bg-white/20 selection:text-white transition-colors duration-500 w-full max-w-full overflow-x-hidden relative">
+    <div className="bg-[#0a0608] min-h-screen text-white font-inter selection:bg-white/20 selection:text-white transition-colors duration-500 w-full relative">
       {/* Fixed Navigation Bar */}
       <Navbar />
 
       {/* Main Content Sections with Generous Breathing Room */}
-      <main className="flex flex-col w-full max-w-full overflow-x-hidden">
+      <main className="flex flex-col w-full">
         {/* Section 1: Fullscreen Hero ("Every Conversation. Every Insight.") */}
         <Hero />
 
