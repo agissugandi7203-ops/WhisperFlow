@@ -30,11 +30,6 @@ export const ProductPage: React.FC = () => {
       {/* Hero Section */}
       <VideoHero videoSrc="/videos/product-bg-opt.mp4" videoPosition="center 75%">
         <div className="w-full max-w-5xl mx-auto text-center pt-10 sm:pt-14 pb-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/15 text-xs font-mono tracking-wider uppercase text-white/80 mb-5">
-            <Sparkles className="w-3.5 h-3.5 text-purple-400" />
-            <span>Product Architecture // Acoustic Intelligence Engine</span>
-          </div>
-
           <h1
             className="text-white text-[36px] xs:text-[42px] sm:text-5xl md:text-6xl lg:text-[84px] leading-[1] tracking-tight select-none italic font-normal px-2"
             style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}
