@@ -33,11 +33,16 @@ export const SplitText: React.FC<SplitTextProps> = ({
   const ref = useRef<HTMLParagraphElement | null>(null);
 
   useEffect(() => {
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      setInView(true);
+      return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        // When scrolling back up out of view, inView becomes false -> resets text state to hidden
-        // When scrolling down into view, inView becomes true -> triggers smooth split text reveal
-        setInView(entry.isIntersecting);
+        if (entry.isIntersecting) {
+          setInView(true);
+        }
       },
       { threshold, rootMargin }
     );
@@ -51,13 +56,11 @@ export const SplitText: React.FC<SplitTextProps> = ({
 
   const defaultFrom: TargetAndTransition = {
     opacity: 0,
-    filter: 'blur(8px)',
-    transform: 'translate3d(0, 24px, 0)',
+    transform: 'translate3d(0, 16px, 0)',
   };
 
   const defaultTo: TargetAndTransition = {
     opacity: 1,
-    filter: 'blur(0px)',
     transform: 'translate3d(0, 0, 0)',
   };
 

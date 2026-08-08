@@ -50,7 +50,16 @@ export const QuoteSection: React.FC = () => {
   });
 
   useEffect(() => {
+    // On mobile: skip entire parallax loop — no rAF needed, clouds are hidden anyway
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      if (rainbowRef.current) {
+        rainbowRef.current.style.transform = 'none';
+      }
+      return;
+    }
+
     let animationFrameId: number;
+    let lastTime = 0;
 
     const updateScrollTargets = () => {
       if (!sectionRef.current) return;
@@ -58,97 +67,56 @@ export const QuoteSection: React.FC = () => {
       const rect = sectionRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
 
-      // progress = clamp(0, 1, (windowHeight - rect.top) / (windowHeight + rect.height))
       const totalDistance = windowHeight + rect.height;
       const currentScroll = windowHeight - rect.top;
       const progress = clamp(0, 1, currentScroll / totalDistance);
 
-      // Rainbow: moves vertically from +130px to -140px based on scroll progress
       animState.current.targetRainbowY = 130 - progress * 270;
 
-      // Left & Right Clouds: Slide in when in view (progress 0.12 - 0.92)
       const isInView = progress >= 0.12 && progress <= 0.92;
       animState.current.targetLeftCloudX = isInView ? 0 : -200;
       animState.current.targetRightCloudX = isInView ? 0 : 200;
 
-      // Cloud Y drift: cloudY = progress * -50
       const cloudY = progress * -50;
       animState.current.targetLeftCloudY = cloudY;
       animState.current.targetRightCloudY = cloudY;
     };
 
-    const render = () => {
+    const render = (time: number) => {
+      // Throttle to ~30fps on low-end devices by skipping frames if needed
+      const delta = time - lastTime;
+      if (delta < 16) {
+        animationFrameId = requestAnimationFrame(render);
+        return;
+      }
+      lastTime = time;
+
       updateScrollTargets();
 
       const state = animState.current;
 
-      // Rainbow lerp (factor: 0.06)
-      state.currentRainbowY = lerp(
-        state.currentRainbowY,
-        state.targetRainbowY,
-        0.06
-      );
+      state.currentRainbowY = lerp(state.currentRainbowY, state.targetRainbowY, 0.08);
+      state.currentLeftCloudX = lerp(state.currentLeftCloudX, state.targetLeftCloudX, 0.06);
+      state.currentLeftCloudY = lerp(state.currentLeftCloudY, state.targetLeftCloudY, 0.06);
+      state.currentRightCloudX = lerp(state.currentRightCloudX, state.targetRightCloudX, 0.06);
+      state.currentRightCloudY = lerp(state.currentRightCloudY, state.targetRightCloudY, 0.06);
 
-      // Clouds lerp (factor: 0.04)
-      state.currentLeftCloudX = lerp(
-        state.currentLeftCloudX,
-        state.targetLeftCloudX,
-        0.04
-      );
-      state.currentLeftCloudY = lerp(
-        state.currentLeftCloudY,
-        state.targetLeftCloudY,
-        0.04
-      );
+      const targetLeftOpacity = clamp(0, 1, 1 - Math.abs(state.currentLeftCloudX) / 200);
+      const targetRightOpacity = clamp(0, 1, 1 - Math.abs(state.currentRightCloudX) / 200);
 
-      state.currentRightCloudX = lerp(
-        state.currentRightCloudX,
-        state.targetRightCloudX,
-        0.04
-      );
-      state.currentRightCloudY = lerp(
-        state.currentRightCloudY,
-        state.targetRightCloudY,
-        0.04
-      );
+      state.currentLeftOpacity = lerp(state.currentLeftOpacity, targetLeftOpacity, 0.08);
+      state.currentRightOpacity = lerp(state.currentRightOpacity, targetRightOpacity, 0.08);
 
-      // Opacity calculation based on distance from offscreen (200px)
-      const targetLeftOpacity = clamp(
-        0,
-        1,
-        1 - Math.abs(state.currentLeftCloudX) / 200
-      );
-      const targetRightOpacity = clamp(
-        0,
-        1,
-        1 - Math.abs(state.currentRightCloudX) / 200
-      );
-
-      state.currentLeftOpacity = lerp(
-        state.currentLeftOpacity,
-        targetLeftOpacity,
-        0.06
-      );
-      state.currentRightOpacity = lerp(
-        state.currentRightOpacity,
-        targetRightOpacity,
-        0.06
-      );
-
-      // Apply GPU-accelerated transforms
       if (rainbowRef.current) {
-        rainbowRef.current.style.transform = `translate3d(0, ${state.currentRainbowY.toFixed(2)}px, 0)`;
+        rainbowRef.current.style.transform = `translate3d(0, ${state.currentRainbowY.toFixed(1)}px, 0)`;
       }
-
       if (leftCloudRef.current) {
-        leftCloudRef.current.style.transform = `translate3d(${state.currentLeftCloudX.toFixed(2)}px, ${state.currentLeftCloudY.toFixed(2)}px, 0)`;
-        leftCloudRef.current.style.opacity = (state.currentLeftOpacity * (cloudLoaded ? 1 : 0)).toFixed(3);
+        leftCloudRef.current.style.transform = `translate3d(${state.currentLeftCloudX.toFixed(1)}px, ${state.currentLeftCloudY.toFixed(1)}px, 0)`;
+        leftCloudRef.current.style.opacity = (state.currentLeftOpacity * (cloudLoaded ? 1 : 0)).toFixed(2);
       }
-
       if (rightCloudRef.current) {
-        // Right cloud is flipped horizontally (scaleX(-1))
-        rightCloudRef.current.style.transform = `translate3d(${state.currentRightCloudX.toFixed(2)}px, ${state.currentRightCloudY.toFixed(2)}px, 0) scaleX(-1)`;
-        rightCloudRef.current.style.opacity = (state.currentRightOpacity * (cloudLoaded ? 1 : 0)).toFixed(3);
+        rightCloudRef.current.style.transform = `translate3d(${state.currentRightCloudX.toFixed(1)}px, ${state.currentRightCloudY.toFixed(1)}px, 0) scaleX(-1)`;
+        rightCloudRef.current.style.opacity = (state.currentRightOpacity * (cloudLoaded ? 1 : 0)).toFixed(2);
       }
 
       animationFrameId = requestAnimationFrame(render);
