@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <rect width="120" height="120" rx="30" fill="#0A0608"/>
+  <rect x="1" y="1" width="118" height="118" rx="29" stroke="rgba(255,255,255,0.15)" stroke-width="2"/>
+  <!-- Acoustic Wave Flow Lines for WhisperFlow -->
+  <path d="M26 60C32 45 40 45 46 60C52 75 60 75 66 60C72 45 80 45 86 60C92 75 96 70 98 60" stroke="url(#wf_grad)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M34 60C38 50 44 50 48 60C52 70 58 70 62 60C66 50 72 50 76 60C80 70 84 66 86 60" stroke="#FFFFFF" stroke-opacity="0.9" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Central Sound Ring Glow -->
+  <circle cx="60" cy="60" r="8" fill="#FFFFFF" fill-opacity="0.95"/>
+  <defs>
+    <linearGradient id="wf_grad" x1="26" y1="60" x2="98" y2="60" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#38BDF8"/>
+      <stop offset="0.5" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#818CF8"/>
+    </linearGradient>
+  </defs>
+</svg>

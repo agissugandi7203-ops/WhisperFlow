@@ -1,0 +1,36 @@
+{
+  "name": "WhisperFlow — AI Speech Intelligence",
+  "short_name": "WhisperFlow",
+  "description": "Real-time voice intelligence, sub-30ms transcription, and AI speech analytics.",
+  "start_url": "/",
+  "id": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0a0608",
+  "theme_color": "#0a0608",
+  "categories": ["productivity", "business", "utilities"],
+  "lang": "en-US",
+  "dir": "ltr",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/logos/logo-white-icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/logos/logo-dark-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

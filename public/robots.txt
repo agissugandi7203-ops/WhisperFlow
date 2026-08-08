@@ -1,0 +1,39 @@
+# WhisperFlow Production robots.txt
+# https://whisperflow.ai/robots.txt
+
+User-agent: *
+Allow: /
+Allow: /product
+Allow: /solutions
+Allow: /models
+Allow: /pricing
+Allow: /contact
+
+# Disallow internal application and dashboard routes
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /auth/
+
+# AI Search & Retrieval Crawlers (Allowed for AI SERP visibility)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# Sitemap Index Declaration
+Sitemap: https://whisperflow.ai/sitemap.xml
+Host: https://whisperflow.ai
