@@ -3,6 +3,7 @@ import { Sun, Moon, X } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
 const NAV_LINKS = [
+  { name: 'Product', href: '/product' },
   { name: 'Solutions', href: '/solutions' },
   { name: 'Models', href: '/models' },
   { name: 'Pricing', href: '/pricing' },

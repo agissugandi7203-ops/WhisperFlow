@@ -8,6 +8,7 @@ import { QuoteSection } from './components/QuoteSection';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
 import { NotFound } from './pages/NotFound';
+import { ProductPage } from './pages/ProductPage';
 import { SolutionsPage } from './pages/SolutionsPage';
 import { ModelsPage } from './pages/ModelsPage';
 import { PricingPage } from './pages/PricingPage';
@@ -47,14 +48,15 @@ const MainLandingPage: React.FC = () => {
   );
 };
 
-type Route = 'home' | 'solutions' | 'models' | 'pricing' | 'contact' | 'notfound';
+type Route = 'home' | 'product' | 'solutions' | 'models' | 'pricing' | 'contact' | 'notfound';
 
 const getRoute = (): Route => {
   if (typeof window === 'undefined') return 'home';
 
   const path = window.location.pathname;
 
-  if (path === '/' || path === '' || path === '/index.html' || path === '/product') return 'home';
+  if (path === '/' || path === '' || path === '/index.html') return 'home';
+  if (path === '/product') return 'product';
   if (path === '/solutions') return 'solutions';
   if (path === '/models') return 'models';
   if (path === '/pricing') return 'pricing';
@@ -93,6 +95,7 @@ export const App: React.FC = () => {
   return (
     <ThemeProvider>
       {route === 'home'      && <MainLandingPage />}
+      {route === 'product'   && <ProductPage />}
       {route === 'solutions' && <SolutionsPage />}
       {route === 'models'    && <ModelsPage />}
       {route === 'pricing'   && <PricingPage />}
