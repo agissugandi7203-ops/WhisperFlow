@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { SplitText } from './SplitText';
 
-// Local webp optimized assets with fallback
 const RAINBOW_IMG = '/images/rainbow.webp';
 const CLOUD_IMG = '/images/cloud.webp';
 
@@ -17,40 +16,40 @@ const QUOTE_TEXT =
 
 export const QuoteSection: React.FC = () => {
   const sectionRef = useRef<HTMLElement | null>(null);
-
-  // References for DOM elements to apply translate3d GPU transforms
   const rainbowRef = useRef<HTMLImageElement | null>(null);
   const leftCloudRef = useRef<HTMLImageElement | null>(null);
   const rightCloudRef = useRef<HTMLImageElement | null>(null);
 
   const [rainbowLoaded, setRainbowLoaded] = useState(false);
   const [cloudLoaded, setCloudLoaded] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
-  // Lerp tracking animation values
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile, { passive: true });
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   const animState = useRef({
-    // Rainbow Y
     currentRainbowY: 120,
     targetRainbowY: 120,
-
-    // Left Cloud
     currentLeftCloudX: -200,
     targetLeftCloudX: -200,
     currentLeftCloudY: 0,
     targetLeftCloudY: 0,
-
-    // Right Cloud
     currentRightCloudX: 200,
     targetRightCloudX: 200,
     currentRightCloudY: 0,
     targetRightCloudY: 0,
-
-    // Cloud opacity
     currentLeftOpacity: 0,
     currentRightOpacity: 0,
   });
 
   useEffect(() => {
-    // On mobile: skip entire parallax loop — no rAF needed, clouds are hidden anyway
+    // On mobile: skip entire parallax loop — no rAF needed
     if (typeof window !== 'undefined' && window.innerWidth < 768) {
       if (rainbowRef.current) {
         rainbowRef.current.style.transform = 'none';
@@ -83,7 +82,6 @@ export const QuoteSection: React.FC = () => {
     };
 
     const render = (time: number) => {
-      // Throttle to ~30fps on low-end devices by skipping frames if needed
       const delta = time - lastTime;
       if (delta < 16) {
         animationFrameId = requestAnimationFrame(render);
@@ -133,22 +131,20 @@ export const QuoteSection: React.FC = () => {
     <section
       ref={sectionRef}
       id="about"
-      className="relative w-full min-h-[120vh] py-36 sm:py-48 md:py-60 overflow-hidden flex items-center justify-center select-none"
+      className="relative w-full min-h-0 sm:min-h-[120vh] py-20 sm:py-48 md:py-60 overflow-hidden flex items-center justify-center select-none"
       style={{
         background:
           'linear-gradient(180deg, #0a0608 0%, #0a0608 15%, #010A17 32%, #0A4267 48%, #1B567A 60%, #0A4267 76%, #010A17 88%, #0a0608 100%)',
       }}
     >
-      {/* Soft Bottom Feathered Fade to Dark #0a0608 */}
-      <div className="absolute inset-x-0 bottom-0 h-48 sm:h-72 bg-gradient-to-t from-[#0a0608] via-[#0a0608]/80 to-transparent pointer-events-none z-10" />
-      {/* 1. Dimmed Rainbow image (Raised up for beautiful atmospheric background arc) */}
+      {/* Dimmed Rainbow image */}
       <img
         ref={rainbowRef}
         src={RAINBOW_IMG}
         alt="Atmospheric light reflection"
         loading="lazy"
         onLoad={() => setRainbowLoaded(true)}
-        className={`absolute inset-x-0 top-0 w-full h-auto object-cover pointer-events-none z-10 mix-blend-screen transition-opacity duration-700 ${
+        className={`hidden sm:block absolute inset-x-0 top-0 w-full h-auto object-cover pointer-events-none z-10 mix-blend-screen transition-opacity duration-700 ${
           rainbowLoaded ? 'opacity-35' : 'opacity-0'
         }`}
         style={{
@@ -157,7 +153,7 @@ export const QuoteSection: React.FC = () => {
         }}
       />
 
-      {/* 2. Left Cloud (hidden on mobile, overflow left with marginLeft -50%, z-10) */}
+      {/* Left Cloud (desktop only) */}
       <img
         ref={leftCloudRef}
         src={CLOUD_IMG}
@@ -173,7 +169,7 @@ export const QuoteSection: React.FC = () => {
         }}
       />
 
-      {/* 3. Right Cloud (hidden on mobile, scale-x-[-1], overflow right with marginRight -75%, z-10) */}
+      {/* Right Cloud (desktop only) */}
       <img
         ref={rightCloudRef}
         src={CLOUD_IMG}
@@ -188,21 +184,25 @@ export const QuoteSection: React.FC = () => {
         }}
       />
 
-      {/* 4. Quote Content with ReactBits SplitText Animation */}
+      {/* Quote Content: Clean static text on mobile, SplitText animation on desktop */}
       <div className="relative z-20 max-w-5xl px-6 md:px-14 text-center flex flex-col items-center">
         <blockquote
-          className="font-instrument text-white text-2xl sm:text-3xl md:text-4xl lg:text-[44px] leading-[1.36] md:leading-[1.42] text-glow tracking-normal font-normal flex flex-wrap items-center justify-center"
+          className="font-instrument text-white text-2xl sm:text-3xl md:text-4xl lg:text-[44px] leading-[1.36] md:leading-[1.42] text-glow tracking-normal font-normal"
           style={{ fontFamily: "'Instrument Serif', serif" }}
         >
-          <span className="text-white/90 mr-1.5 inline-block">“</span>
-          <SplitText
-            text={QUOTE_TEXT}
-            delay={12}
-            duration={0.42}
-            textAlign="center"
-            className="font-instrument text-white"
-          />
-          <span className="text-white/90 ml-1.5 inline-block">”</span>
+          <span className="text-white/90 mr-1.5 inline">“</span>
+          {isMobile ? (
+            <span className="text-white inline">{QUOTE_TEXT}</span>
+          ) : (
+            <SplitText
+              text={QUOTE_TEXT}
+              delay={12}
+              duration={0.42}
+              textAlign="center"
+              className="font-instrument text-white"
+            />
+          )}
+          <span className="text-white/90 ml-1.5 inline">”</span>
         </blockquote>
 
         {/* Attribution */}
@@ -211,7 +211,7 @@ export const QuoteSection: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.25 }}
-          className="not-italic mt-8 md:mt-12 text-white/85 text-base md:text-lg tracking-wide font-inter"
+          className="not-italic mt-6 sm:mt-8 md:mt-12 text-white/85 text-base md:text-lg tracking-wide font-inter block"
         >
           WhisperFlow Intelligence
         </motion.cite>
@@ -219,3 +219,5 @@ export const QuoteSection: React.FC = () => {
     </section>
   );
 };
+
+export default QuoteSection;
