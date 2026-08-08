@@ -142,6 +142,11 @@ export const MagicRings: React.FC<MagicRingsProps> = ({
   };
 
   useEffect(() => {
+    // Mobile bypass: skip Three.js WebGL 3D renderer creation on mobile to save GPU/memory
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      return;
+    }
+
     const mount = mountRef.current;
     if (!mount) return;
 

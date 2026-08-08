@@ -8,8 +8,8 @@ export const MagicVideoWindow: React.FC = () => {
       id="demo"
       className="w-full min-h-screen py-28 md:py-40 bg-[#0a0608] relative overflow-hidden flex flex-col items-center justify-center px-4 sm:px-6 md:px-12 select-none"
     >
-      {/* Magical Ambient Aura & Neon Rays */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[700px] md:max-w-[1000px] h-[450px] md:h-[650px] bg-gradient-to-tr from-indigo-600/20 via-purple-600/15 to-cyan-500/20 rounded-full blur-[150px] pointer-events-none" />
+      {/* Magical Ambient Aura & Neon Rays (Desktop only to prevent mobile GPU lag) */}
+      <div className="hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[1000px] h-[650px] bg-gradient-to-tr from-indigo-600/20 via-purple-600/15 to-cyan-500/20 rounded-full blur-[150px] pointer-events-none" />
 
       {/* Decorative Grid Lines */}
       <div

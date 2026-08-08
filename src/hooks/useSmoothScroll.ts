@@ -7,7 +7,13 @@ gsap.registerPlugin(ScrollTrigger);
 
 export const useSmoothScroll = () => {
   useEffect(() => {
-    // Create persistent, responsive Lenis smooth scroll instance
+    // Disable JS smooth scroll on mobile (< 768px)
+    // Mobile phones use native 60FPS hardware-accelerated touch momentum scroll
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      return;
+    }
+
+    // Desktop: Lenis smooth scroll for mouse wheel
     const lenis = new Lenis({
       duration: 1.0,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -15,14 +21,13 @@ export const useSmoothScroll = () => {
       gestureOrientation: 'vertical',
       smoothWheel: true,
       wheelMultiplier: 1.1,
-      touchMultiplier: 1.8,
       infinite: false,
       autoResize: true,
     });
 
     (window as any).__lenis = lenis;
 
-    // Connect Lenis to GSAP ticker so ScrollTrigger animations work correctly
+    // Connect Lenis to GSAP ticker so ScrollTrigger animations work correctly on desktop
     gsap.ticker.add((time) => {
       lenis.raf(time * 1000);
     });
