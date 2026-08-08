@@ -69,6 +69,15 @@ export const AgentSection: React.FC = () => {
     };
 
     const render = () => {
+      if (window.innerWidth < 768) {
+        if (cardRef.current) {
+          cardRef.current.style.transform = 'none';
+          cardRef.current.style.width = '100%';
+          cardRef.current.style.borderRadius = '20px';
+        }
+        return;
+      }
+
       handleScroll();
 
       const state = animState.current;
@@ -111,10 +120,10 @@ export const AgentSection: React.FC = () => {
     <section
       ref={sectionRef}
       id="services"
-      className="w-full h-[160vh] bg-[#0a0608] relative select-none z-30"
+      className="w-full h-auto md:h-[160vh] py-12 sm:py-20 md:py-0 bg-[#0a0608] relative select-none z-30"
     >
-      {/* Sticky Pinned Container: Holds user in place as video expands to full size */}
-      <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center px-4 sm:px-6 md:px-10 z-30 pointer-events-auto">
+      {/* Pinned Container on desktop, static clean container on mobile */}
+      <div className="relative md:sticky md:top-0 h-auto md:h-screen w-full flex flex-col items-center justify-center px-4 sm:px-6 md:px-10 z-30 pointer-events-auto">
         <div className="relative z-30 max-w-5xl w-full mx-auto flex flex-col items-center text-center -mt-2 sm:-mt-4">
           {/* Main Title using ReactBits BlurText Component — Relaxed Smooth Pacing */}
           <div className="max-w-4xl mb-2">

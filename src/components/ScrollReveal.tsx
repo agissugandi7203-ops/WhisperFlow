@@ -49,6 +49,18 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
     const el = containerRef.current;
     if (!el) return;
 
+    // Mobile bypass: keep text instantly visible without scrub delays or stuttering
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      el.style.transform = 'none';
+      el.style.opacity = '1';
+      const wordElements = el.querySelectorAll<HTMLElement>('.word');
+      wordElements.forEach((w) => {
+        w.style.opacity = '1';
+        w.style.filter = 'none';
+      });
+      return;
+    }
+
     const scroller =
       scrollContainerRef && scrollContainerRef.current
         ? scrollContainerRef.current

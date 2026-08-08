@@ -31,9 +31,16 @@ export const BlurText: React.FC<BlurTextProps> = ({
   const ref = useRef<HTMLParagraphElement | null>(null);
 
   useEffect(() => {
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      setInView(true);
+      return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setInView(entry.isIntersecting);
+        if (entry.isIntersecting) {
+          setInView(true);
+        }
       },
       { threshold, rootMargin }
     );
