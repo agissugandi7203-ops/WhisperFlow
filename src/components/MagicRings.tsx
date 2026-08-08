@@ -142,17 +142,12 @@ export const MagicRings: React.FC<MagicRingsProps> = ({
   };
 
   useEffect(() => {
-    // Mobile bypass: skip Three.js WebGL 3D renderer creation on mobile to save GPU/memory
-    if (typeof window !== 'undefined' && window.innerWidth < 768) {
-      return;
-    }
-
     const mount = mountRef.current;
     if (!mount) return;
 
     let renderer: THREE.WebGLRenderer;
     try {
-      renderer = new THREE.WebGLRenderer({ alpha: true });
+      renderer = new THREE.WebGLRenderer({ alpha: true, powerPreference: 'high-performance' });
     } catch {
       return;
     }
@@ -206,7 +201,8 @@ export const MagicRings: React.FC<MagicRingsProps> = ({
     const resize = () => {
       const w = mount.clientWidth;
       const h = mount.clientHeight;
-      const dpr = Math.min(window.devicePixelRatio, 2);
+      const isMobile = window.innerWidth < 768;
+      const dpr = isMobile ? 1 : Math.min(window.devicePixelRatio, 2);
       renderer.setSize(w, h);
       renderer.setPixelRatio(dpr);
       uniforms.uResolution.value.set(w * dpr, h * dpr);
