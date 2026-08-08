@@ -487,11 +487,11 @@ export const Footer: React.FC = () => {
           </div>
 
           {/* ── Brand Signature Mark: WhisperFlow wordmark (Centered) ── */}
-          <div className="pb-8 sm:pb-12 w-full overflow-hidden flex items-center justify-center text-center">
+          <div className="pb-8 sm:pb-12 w-full max-w-full overflow-hidden flex items-center justify-center text-center">
             <span
               className="font-black select-none leading-none tracking-[-0.04em] text-center"
               style={{
-                fontSize: 'clamp(52px, 12vw, 172px)',
+                fontSize: 'clamp(32px, 10vw, 172px)',
                 color: 'rgba(255,255,255,0.09)',
                 fontFamily: "system-ui, -apple-system, 'Inter', sans-serif",
               }}

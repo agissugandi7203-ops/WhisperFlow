@@ -10,7 +10,7 @@ export const Hero: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   return (
-    <section className="relative w-full h-screen overflow-hidden flex items-center justify-center bg-[#0a0608]">
+    <section className="relative w-full max-w-full h-screen overflow-hidden flex items-center justify-center bg-[#0a0608]">
       {/* 1. Skeleton Loading Placeholder before video is ready */}
       {!isVideoLoaded && (
         <div className="absolute inset-0 z-0 skeleton-shimmer bg-[#0e0a0d] flex items-center justify-center">

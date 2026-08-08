@@ -19,10 +19,10 @@ export const ContactSection: React.FC = () => {
   return (
     <section
       id="contact"
-      className="relative w-full bg-[#0a0608] text-white select-none z-40"
+      className="relative w-full max-w-full overflow-hidden bg-[#0a0608] text-white select-none z-40"
     >
       {/* Background Ambient Glow */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-gradient-to-b from-sky-500/6 via-indigo-500/6 to-transparent blur-3xl rounded-full pointer-events-none" />
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-full max-w-[700px] h-[400px] bg-gradient-to-b from-sky-500/6 via-indigo-500/6 to-transparent blur-3xl rounded-full pointer-events-none" />
 
       {/* ── Text content — centered, constrained, shifted up ── */}
       <div className="relative z-10 w-full max-w-5xl mx-auto px-6 sm:px-10 pt-14 sm:pt-20 md:pt-28 pb-8 text-center flex flex-col items-center">

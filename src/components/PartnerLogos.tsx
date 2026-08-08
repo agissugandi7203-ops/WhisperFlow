@@ -27,7 +27,7 @@ const partnerLogos = [
 export const PartnerLogos: React.FC = () => {
   return (
     <div
-      className="w-full max-w-[100vw] py-12 bg-[#0a0608] border-y border-white/5 select-none relative z-20 overflow-hidden"
+      className="w-full max-w-full py-12 bg-[#0a0608] border-y border-white/5 select-none relative z-20 overflow-hidden"
       style={{ isolation: 'isolate', contain: 'paint' }}
     >
       <div className="max-w-7xl mx-auto px-6 mb-6 text-center">

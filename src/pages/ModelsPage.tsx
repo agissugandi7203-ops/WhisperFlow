@@ -204,7 +204,7 @@ export const ModelsPage: React.FC = () => {
         className="relative w-full -mt-8 sm:-mt-16 md:-mt-24 pt-16 sm:pt-24 pb-28 sm:pb-36 px-5 sm:px-10 md:px-16 lg:px-24 bg-[#0a0608] overflow-hidden"
       >
         {/* Ambient Glow */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-gradient-to-b from-purple-500/8 via-sky-500/6 to-transparent blur-3xl rounded-full pointer-events-none" />
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-full max-w-[800px] h-[500px] bg-gradient-to-b from-purple-500/8 via-sky-500/6 to-transparent blur-3xl rounded-full pointer-events-none" />
 
         <div className="max-w-6xl mx-auto text-center">
           <span className="text-xs font-mono font-semibold tracking-[0.25em] uppercase text-white/40 mb-3 block">
