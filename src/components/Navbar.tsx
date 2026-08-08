@@ -3,7 +3,6 @@ import { Sun, Moon, X } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
 const NAV_LINKS = [
-  { name: 'Product', href: '/product' },
   { name: 'Solutions', href: '/solutions' },
   { name: 'Models', href: '/models' },
   { name: 'Pricing', href: '/pricing' },
@@ -59,9 +58,6 @@ export const Navbar: React.FC = () => {
 
   // Helper to check if link is currently active
   const isLinkActive = (href: string) => {
-    if (href === '/product') {
-      return currentPath === '/' || currentPath === '' || currentPath === '/product' || currentPath === '/index.html';
-    }
     return currentPath === href;
   };
 
