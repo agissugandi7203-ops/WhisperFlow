@@ -169,8 +169,8 @@ export const ModelsPage: React.FC = () => {
       {/* Hero Section with Video — Lowered 2x Further Down for Optimal Subject Framing */}
       <VideoHero
         videoSrc="/videos/models-bg-opt.mp4"
-        videoPosition="center 100%"
-        videoTransform="translateY(240px) scale(1.24)"
+        videoPosition="center bottom"
+        videoTransform="scale(2) translateY(25%)"
       >
         <div className="w-full max-w-5xl mx-auto text-center pt-8 sm:pt-12 pb-6">
           <h1
